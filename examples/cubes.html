@@ -17,7 +17,8 @@
        <audio id="audio-element" src="../songs/08%20No%20Way.ogg" controls="" style="width: 400px;" ></audio>
        <p id="text"></p>
 	<script type="text/javascript">
-    var geometry, material, cube, scene, camera, renderer, mesh;
+    var geometry, material, cube, scene, camera, renderer, mesh, row;
+    var rows = [];
     var fft, magnitued;
     var mouseX, mouseY;
     var cubesArr = [];
@@ -32,27 +33,25 @@
         camera.position.y = 300;
         
         scene = new THREE.Scene();
-	var posX = [-100 - 500, 1000 - 600, 1000 - 600, -100 - 500];
-        var posZ = [1000 - 500, 1000 - 500, -100 - 500, -100 - 500];
-        var colours = [0xffffff, 0x66FF, 0xFF00, 0xFF33CC];
         
         geometry = new THREE.CubeGeometry( 20, 20, 20 );
         //blue	
            for ( var ix = 0; ix < AMOUNTX; ix ++ ) {
-            for ( var i = 0; i < AMOUNTY; i ++ ) {
-             material = new THREE.MeshLambertMaterial( { color: Math.random() * 0xFF33CC, shading: THREE.FlatShading, overdraw: true, wireframe: false } );
-             cube = cubes[i] = new THREE.Mesh( geometry, material );
-             cubes.push(cubes[i]);
-             //cube.overdraw = true;
- 
-             cube.scale.y = Math.floor( Math.random() * 2 + 1 );
-             cube.position.x = i * SEPARATION - ( ( AMOUNTX * SEPARATION ) / 2 );
-             cube.position.y = 0;//( cube.scale.y * 50 ) / 2;
-             cube.position.z = ix * SEPARATION - ( ( AMOUNTY * SEPARATION ) / 2 );
+                for ( var i = 0; i < AMOUNTY; i ++ ) {
+                 material = new THREE.MeshLambertMaterial( { color: Math.random() * 0xFF33CC, shading: THREE.FlatShading, overdraw: true, wireframe: false } );
+                 cube = cubes[i] = new THREE.Mesh( geometry, material );
+                 //cubes.push(cubes[i]);
+                 //cube.overdraw = true;
+                
+                 cube.scale.y = Math.floor( Math.random() * 2 + 1 );
+                 cube.position.x = i * SEPARATION - ( ( AMOUNTX * SEPARATION ) / 2 );
+                 cube.position.y = 0;//( cube.scale.y * 50 ) / 2;
+                 cube.position.z = ix * SEPARATION - ( ( AMOUNTY * SEPARATION ) / 2 );
 
-             scene.add(cube);
+                 scene.add(cube);
+                }   
+                rows.push(cubes);
             }
-           }
             //cubesArr.push(cubes[j]);
         material = new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, shading: THREE.FlatShading, overdraw: true, wireframe: false   } );
                                        
@@ -92,15 +91,21 @@
         {
             fft = fft.spectrum;
         }
-        
+        var ji, hi = 0;
         function render() {
             var timer = new Date().getTime() * 0.0001;
             if(fft !== undefined)
             {
                 for ( var i = 0; i < AMOUNTY; i ++ ) {
-                    cube = cubes[i];
+                    cubes = rows[i];
                     magnitued = fft.spectrum[i * 10] * 800;
-                    cube.scale.y = magnitued;
+                    for ( var ix = 0; ix < cubes.length; ix ++ ) {
+                        cube = cubes[ix];
+                        magnitued = fft.spectrum[i * 10] * 800;
+                        cube.scale.y = magnitued;
+                        ji ++;
+                    }
+                    hi ++;
                 }
             }
             //camera.position.x = Math.cos( timer ) * 200;           
