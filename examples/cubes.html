@@ -28,7 +28,7 @@
     init();
     function init() {
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-        camera.position.z = 500;
+        camera.position.z = 1000;
         camera.position.y = 300;
         
         scene = new THREE.Scene();
@@ -97,13 +97,11 @@
             var timer = new Date().getTime() * 0.0001;
             if(fft !== undefined)
             {
-                for ( var ix = 0; ix < AMOUNTX; ix ++ ) {
-                    for ( var i = 0; i < AMOUNTY; i ++ ) {
-                    cube = cubes[ix * 10];
+                for ( var i = 0; i < AMOUNTY; i ++ ) {
+                    cube = cubes[i];
                     magnitued = fft.spectrum[i * 10] * 800;
                     cube.scale.y = magnitued;
                 }
-              }
             }
             //camera.position.x = Math.cos( timer ) * 200;           
             //camera.position.x = Math.cos( timer ) * 200;
