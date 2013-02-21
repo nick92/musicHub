@@ -14,7 +14,7 @@
 	</head>
 	<body>
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-       <audio id="audio-element" src="../songs/08%20No%20Way.ogg" controls="" style="width: 400px;" ></audio>
+       <audio id="audio-element" src="../songs/10%20-%20Fitzpleasure.ogg" controls="" style="width: 400px;" ></audio>
        <p id="text"></p>
        <div id="test"></div>
 	<script type="text/javascript">
@@ -33,10 +33,7 @@
         camera.position.z = 600;
         camera.position.y = 300;
         
-        container = document.getElementById( 'test' );
-        var test = $('#test');
         scene = new THREE.Scene();
-        var height = test.innerHeight;
         
         geometry = new THREE.CubeGeometry( 5, 20, 5 );
         //blue	
@@ -72,14 +69,14 @@
  
         // add directional light source
         var directionalLight = new THREE.DirectionalLight(0xffffff);
-        directionalLight.position.set(1, 1, 1).normalize();
+        directionalLight.position.set(10, 30, 100).normalize();
         scene.add(directionalLight);
         
         renderer = new THREE.CanvasRenderer();
 
-        document.getElementById("test").appendChild(renderer.domElement);
+        document.body.appendChild(renderer.domElement);
         document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-        renderer.setSize( 600, 400 );
+        renderer.setSize( window.innerWidth, window.innerHeight );
         
         requestAnimationFrame( animate );
         }
@@ -100,7 +97,7 @@
             {
                 for ( var i = 0; i < cubes.length; i ++ ) {
                         cube = cubes[i];
-                        magnitude = fft.spectrum[i * 10] * 800;
+                        magnitude = fft.spectrum[i * 5] * 800;
                         cube.scale.y = magnitude;
                 }
             }
