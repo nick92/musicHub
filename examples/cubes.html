@@ -23,18 +23,18 @@
     var mouseX, mouseY;
     var cubesArr = [];
     var cubes = [];
-    var SEPARATION = 50;
-    var AMOUNTX = 30;
+    var SEPARATION = 20;
+    var AMOUNTX = 60;
     var windowHalfX = window.innerWidth / 2, windowHalfY = window.innerHeight / 2;
     init();
     function init() {
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-        camera.position.z = 800;
+        camera.position.z = 600;
         camera.position.y = 300;
         
         scene = new THREE.Scene();
         
-        geometry = new THREE.CubeGeometry( 20, 20, 20 );
+        geometry = new THREE.CubeGeometry( 5, 20, 5 );
         //blue	
            for ( var ix = 0; ix < AMOUNTX; ix ++ ) {
                  material = new THREE.MeshLambertMaterial( { color: Math.random() * 0xFF33CC, shading: THREE.FlatShading, overdraw: true, wireframe: false } );
@@ -44,17 +44,15 @@
                  //cube.overdraw = true;
                 
                  cube.scale.y = Math.floor( Math.random() * 2 + 1 );
-                 cube.position.x = 10;//i * SEPARATION - ( ( AMOUNTX * SEPARATION ) / 2 );
+                 cube.position.x = ix * SEPARATION - ( ( AMOUNTX * SEPARATION ) / 2 );
                  cube.position.y = 0;//( cube.scale.y * 50 ) / 2;
-                 cube.position.z = ix * SEPARATION - ( ( AMOUNTY * SEPARATION ) / 2 );
+                 cube.position.z = 10;//ix * SEPARATION - ( ( AMOUNTY * SEPARATION ) / 2 );
 
                  scene.add(cube);
-                }   
-                //rows[ix] = [cubes];
+            }   
+            
         material = new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, shading: THREE.FlatShading, overdraw: true, wireframe: false   } );
                                        
-        cube = new THREE.Mesh( geometry, material );
-        //cube.overdraw = true;
         
         mesh = new THREE.Mesh( new THREE.PlaneGeometry( 500, 500, 3, 3 ), new THREE.MeshBasicMaterial( { color: 0x666666, overdraw: true } ) );
         mesh.position.y = -50;
@@ -62,6 +60,7 @@
         //scene.add( mesh );
                                 
         scene.add( cube );
+        
         // create the particle variables
         // add subtle ambient lighting
         var ambientLight = new THREE.AmbientLight(0x555555);
@@ -89,23 +88,17 @@
         {
             fft = fft.spectrum;
         }
-        var count = 0;
-        var arr = [];
+        
         function render() {
             var timer = new Date().getTime() * 0.0001;
             if(fft !== undefined)
             {
                 for ( var i = 0; i < cubes.length; i ++ ) {
-                        //arr = rows[i][ix];
                         cube = cubes[i];
                         magnitude = fft.spectrum[i * 10] * 800;
                         cube.scale.y = magnitude;
                 }
             }
-            //camera.position.x = Math.cos( timer ) * 200;           
-            //camera.position.x = Math.cos( timer ) * 200;
-            //camera.position.y = Math.cos( timer ) * 200;
-            //camera.position.z = Math.sin( timer ) * 200;
             camera.lookAt( scene.position );
             
             renderer.render( scene, camera );
