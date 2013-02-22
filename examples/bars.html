@@ -18,7 +18,7 @@
        <p id="text"></p>
        <div id="test"></div>
 	<script type="text/javascript">
-    var geometry, material, cube, scene, camera, renderer, mesh, row, container;
+    var geometry, material, cube, scene, camera, renderer, mesh, row, container, height;
     var rows = [];
     var fft, magnitued;
     var mouseX, mouseY;
@@ -36,11 +36,12 @@
         scene = new THREE.Scene();
         
         geometry = new THREE.CubeGeometry( 5, 20, 5 );
+        geometry.computeBoundingBox();
         //blue	
         for ( var ix = 0; ix < AMOUNTX; ix ++ ) {
-              material = new THREE.MeshLambertMaterial( { color: Math.random() * 0xFF33CC, shading: THREE.FlatShading, overdraw: true, wireframe: false } );
+              material = new THREE.MeshLambertMaterial( { color: Math.random() * 0x009900, shading: THREE.FlatShading, overdraw: true, wireframe: false } );
+              geometry.boundingBox.max.set( 10, 10, 10 );
               cube = new THREE.Mesh( geometry, material );
-
               cubes.push(cube);
               //cube.overdraw = true;
 
@@ -96,9 +97,9 @@
             if(fft !== undefined)
             {
                 for ( var i = 0; i < cubes.length; i ++ ) {
-                        cube = cubes[i];
-                        magnitude = fft.spectrum[i * 5] * 800;
-                        cube.scale.y = magnitude;
+                    cube = cubes[i];
+                    magnitude = fft.spectrum[i * 5] * 800;
+                    cube.scale.y = magnitude;
                 }
             }
             camera.lookAt( scene.position );

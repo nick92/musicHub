@@ -12,3 +12,9 @@ Buggs: First release buggs are that only one row of cubes resize on music parsin
 
 Waves.html:
 A three.js environment showing multiple circles printed out into rows which increase and decrease to the music
+
+Bars.html:
+Another three.js environment displaying small cubes scaling to the music that is being plated.
+
+Further Notes:
+These files are only the code for the three.js and web gl animations part of my application. The parsing on the music is done in a seperate js file that has not been uploaded yet. 
