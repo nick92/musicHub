@@ -102,7 +102,7 @@
                 for ( var i = 0; i < cubes.length; i ++ ) {
                     cube = cubes[i];
                     magnitude = fft.spectrum[i * 5] * 800;
-                    cube.scale.y = magnitude;
+                    cube.scale.y = Math.min(Math.max(magnitude, 0), 40);
                 }
             }
             camera.lookAt( scene.position );
