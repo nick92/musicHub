@@ -80,8 +80,10 @@
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
 				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-
-				//
+				document.addEventListener("mousewheel", onDocumentMouseScroll, false);
+	
+				document.addEventListener("DOMMouseScroll", onDocumentMouseScroll, false);
+				
 
 				window.addEventListener( 'resize', onWindowResize, false );
 
@@ -152,6 +154,20 @@
 				}
 				renderer.render( scene, camera );
 				count += 0.1;
+			}
+			
+			function onDocumentMouseScroll(e)
+			{
+				var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+				
+				if(delta == -1)
+				{
+					camera.position.z = camera.position.z-50;
+				}
+				else
+				{
+					camera.position.z = camera.position.z+50;
+				}
 			}
 
 		</script>
