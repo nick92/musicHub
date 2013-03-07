@@ -145,7 +145,7 @@
 						for ( var iy = 0; iy < AMOUNTY; iy ++ ) {
 							particle = particles[ i++ ];
 							magnitude = fft.spectrum[ix * 10];
-							particle.position.x = (Math.sin(( ix + count ) * magnitude ) * 100 ) + ( Math.sin( ( iy + count ) * magnitude ) * 30 );
+							particle.position.y = (Math.sin(( ix + count ) * magnitude ) * 100 );
 							particle.scale.x = particle.scale.y = (Math.sin(( ix + count ) * magnitude ) + 1 ) + ( Math.sin( ( iy + count ) * magnitude ) + 1 );
 						}
 					}
