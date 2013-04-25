@@ -1,0 +1,77 @@
+<script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
+<style>
+	body {
+		background-color: #f0f0f0;
+		margin: 0px;
+		overflow: hidden;
+	}
+
+	a {
+		color:#0078ff;
+	}
+</style>
+</head>
+<body>
+<h1>Processing JS</h1>
+<script type="text/processing" data-processing-target="mycanvas">
+float ToRadians = PI / 180.0;
+float gAngle = 137.5077640844293;
+float rotation = 0.0;
+float initialRotation = 0.0;
+int width, height;
+int totalPetals = 3600;
+Petal[] petals = new Petal[totalPetals];
+float radiusGrowth = 1.0049;
+float radius = 10;
+  
+void setup() {
+    width = 800;
+    height = 550;
+    size(width, height);
+    noStroke();
+    smooth();
+    background(0);
+    for (int i = 0; i < totalPetals; i++) {
+        rotation += gAngle;
+        radius *= radiusGrowth;
+        Petal petal = new Petal();
+        petal.x = width / 2 + cos(rotation * ToRadians) * radius;
+        petal.y = height / 2 + sin(rotation * ToRadians) * radius;
+        petal.rotation = rotation * ToRadians;
+        petal.scaleVar += (i * 2) / totalPetals;
+        petal.render();
+        petals[i] = petal;
+    }
+};
+
+void draw() {
+	
+
+}  
+class Petal {
+  float x = 0.0;
+  float y = 0.0;
+  float rotation = 0.0;
+  float scaleVar = 1;
+  color baseColor = color(0, 255, 255, 150);  
+  color detailColor = color(255, 255, 255, 160);
+  color trimColor = color(0, 0, 0);
+  void render (){
+      pushMatrix();
+      translate(this.x, this.y);
+      fill(this.baseColor);
+      rotate(this.rotation);
+      scale(this.scaleVar, this.scaleVar);
+      rect(-10, -1, 20, 2);
+      ellipse(0, 0, 10, 10);
+      fill(this.detailColor);
+      ellipse(0, 0, 8, 8);
+      fill(this.trimColor);
+      ellipse(0, 0, 5, 5);
+      popMatrix();
+  }
+}
+</script>
+<canvas id="mycanvas"></canvas>
+</body>
+</html>
