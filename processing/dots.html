@@ -67,8 +67,7 @@ void mouseMoved() {
     targetX += (mouseX - targetX) * .2;
     targetY += (mouseY - targetY) * .2;
 	for (int i = 0; i < totalDots; i++) {
-        dots[i].x = targetX;
-        dots[i].y = targetY;
+
 		if (++dotIndex >= dots.length) dotIndex = 0;
 	}
 }
