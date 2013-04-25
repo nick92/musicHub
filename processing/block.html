@@ -1,0 +1,121 @@
+<html>
+<head>
+<title>Processing.js</title>
+<script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
+<style>
+	body {
+		background-color: #f0f0f0;
+		margin: 0px;
+		overflow: hidden;
+	}
+
+	a {
+		color:#0078ff;
+	}
+	canvas
+	{
+		width: 800px;
+		height: 500px;
+		margin-left: 200px;
+	}
+</style>
+</head>
+<body>
+<h1>Processing JS</h1>
+<audio id="audio-element" src="../songs/10 - Fitzpleasure.ogg" controls="" style="width: 400px;"></audio>
+<script>
+var fft;
+function media(fft)
+{
+	fft = fft.spectrum;
+}
+</script>
+<script type="text/processing" data-processing-target="mycanvas">
+float nX, nY;
+float pointerX, pointerY;
+int rows = 20;
+int cols = 20;
+int margin = 10;
+int totalBlocks = rows * cols;
+Block[] blocks = new Block[totalBlocks];
+
+int rowsSpace; 
+int colSpace;
+float sketchDiag;
+
+void setup() {
+    size(800, 500); 
+    background(255);
+    smooth();
+	noStroke();
+	
+	rowsSpace = (width - margin) / rows;
+	colSpace = (height - margin) / cols;
+	sketchDiag = width*width + height*height;
+	sketchDiag *= .3;
+	
+	int r = 255;
+	int g = 0;
+	int b = 255;
+	int count = 0;
+	
+	for ( int x = 0; x < rows; x++) {
+		for ( int y = 0; y < cols; y++ ) {
+			Block block = new Block();
+			block.x = margin + x*rowsSpace;
+			block.y = margin + y*colSpace;
+			r = map( x, 0, rows, 0, 255);
+			g = map( y, 0, cols, 0, 255);
+			block.baseColor = color( r, g, b, 255);
+			block.rotation = 0;
+			blocks[count++] = block;
+		}
+	}
+};	
+void draw() {
+	background(0);
+	
+		pointerX += ( nX - pointerX)*.16;
+		pointerY += ( nY - pointerY)*.16;
+		for(int i = 0; i < totalBlocks; i++)
+		{
+			float dx = blocks[i].x - pointerX;
+			float dy = blocks[i].y - pointerY; 
+			float width = 1.0 - (dx * dx + dy * dy) / sketchDiag;
+			float angel = Math.atan2(dy,dx);
+			blocks[i].height = 0;
+			blocks[i].wide = width * rowsSpace;
+			blocks[i].rotation = angel;
+			blocks[i].render();
+		}
+	
+}
+
+void mouseMoved(){
+  nX = mouseX;
+  nY = mouseY;  
+}
+
+class Block {
+  float x = 0.0;
+  float y = 0.0;
+  float wide = 5.0;
+  float rotation = 0.0;
+  color baseColor = color(255,255,255,255);
+  color detailColor = color(255,255,255,255);
+  void render(){
+    pushMatrix();
+    translate( this.x, this.y);
+    fill(this.baseColor);
+    rotate(this.rotation);
+    rect( 0, -1, this.wide, 2);
+    fill(this.detailColor);
+    ellipse(0, 0, 3, 3);
+    popMatrix();
+  }
+}
+</script>
+<canvas id="mycanvas"></canvas>
+<script src="parse.js" type="text/javascript" language="javascript"></script>
+</body>
+</html>
